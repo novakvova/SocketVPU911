@@ -57,12 +57,13 @@ namespace ConsoleServer
                     int bytes = 0; // количество полученных байтов
                     byte[] data = new byte[256]; // буфер для получаемых данных
 
+                    //Читмаємо відповідь від клієнта
                     do
                     {
                         bytes = handler.Receive(data);
                         builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
                     }
-                    while (handler.Available > 0);
+                    while (handler.Available > 0); //Працюємо доки не дойшли до кінця повідомлення
                     Console.WriteLine("IP: {0}", clientEndPoint);
                     Console.WriteLine(DateTime.Now.ToShortTimeString() + ": " + builder.ToString());
 

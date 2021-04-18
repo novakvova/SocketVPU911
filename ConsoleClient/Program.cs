@@ -29,13 +29,14 @@ namespace ConsoleClient
                 StringBuilder builder = new StringBuilder();
                 int bytes = 0; // количество полученных байт
 
+                //Клієнт приймає відповідь від сервера
                 do
                 {
                     bytes = socket.Receive(data, data.Length, 0);
                     builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
                 }
                 while (socket.Available > 0);
-                Console.WriteLine("ответ сервера: " + builder.ToString());
+                Console.WriteLine("ответ сервера: " + builder.ToString()); //Показуємо відповідь від сервера
 
                 // закрываем сокет
                 socket.Shutdown(SocketShutdown.Both);
