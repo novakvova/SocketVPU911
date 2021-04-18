@@ -10,8 +10,24 @@ namespace ConsoleServer
         static int port = 2895; // порт для приема входящих запросов
         static void Main(string[] args)
         {
+            String strHostName = string.Empty;
+            // Getting Ip address of local machine...
+            // First get the host name of local machine.
+            strHostName = Dns.GetHostName();
+            Console.WriteLine("Local Machine's Host Name: " + strHostName);
+            // Then using host name, get the IP address list..
+            IPHostEntry ipEntry = Dns.GetHostEntry(strHostName);
+            IPAddress[] addr = ipEntry.AddressList;
+            Console.WriteLine("Оберіть IP address");
+            for (int i = 0; i < addr.Length; i++)
+            {
+                Console.WriteLine("{0}. {1} ", i+1, addr[i].ToString());
+            }
+            Console.Write("->_");
+            int selectIP = int.Parse(Console.ReadLine());
+
             // получаем адреса для запуска сокета
-            IPEndPoint ipPoint = new IPEndPoint(IPAddress.Parse("10.7.150.46"), port);
+            IPEndPoint ipPoint = new IPEndPoint(addr[selectIP-1], port);
 
             // создаем сокет
             Socket socketA = new Socket(AddressFamily.InterNetwork, 
