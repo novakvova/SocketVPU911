@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -17,9 +18,10 @@ namespace ConsoleServer
             Console.WriteLine("Local Machine's Host Name: " + strHostName);
             // Then using host name, get the IP address list..
             IPHostEntry ipEntry = Dns.GetHostEntry(strHostName);
-            IPAddress[] addr = ipEntry.AddressList;
+            var addr = ipEntry.AddressList.ToList();
+            addr.Add(IPAddress.Parse("127.0.0.1"));
             Console.WriteLine("Оберіть IP address");
-            for (int i = 0; i < addr.Length; i++)
+            for (int i = 0; i < addr.Count; i++)
             {
                 Console.WriteLine("{0}. {1} ", i+1, addr[i].ToString());
             }
@@ -49,6 +51,7 @@ namespace ConsoleServer
                     //socketSveta
                     //socketPetro
                     Socket handler = socketA.Accept();
+                    var clientEndPoint = handler.RemoteEndPoint;
                     // получаем сообщение
                     StringBuilder builder = new StringBuilder();
                     int bytes = 0; // количество полученных байтов
@@ -60,7 +63,7 @@ namespace ConsoleServer
                         builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
                     }
                     while (handler.Available > 0);
-
+                    Console.WriteLine("IP: {0}", clientEndPoint);
                     Console.WriteLine(DateTime.Now.ToShortTimeString() + ": " + builder.ToString());
 
                     // отправляем ответ

@@ -9,7 +9,7 @@ namespace ConsoleClient
     {
         // адрес и порт сервера, к которому будем подключаться
         static int port = 2895; // порт сервера
-        static string address = "127.0.0.1"; // адрес сервера
+        static string address = "127.0.0.1";//"91.238.103.51";// // адрес сервера
         static void Main(string[] args)
         {
             try
